@@ -1,0 +1,44 @@
+config:
+  target: "https://api.todoist.com"
+  processor: "./utils.js"
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      name: "phase 1"
+  defaults:
+    headers:
+      Authorization: "Bearer {{ $processEnvironment.TOKEN }}"
+      Content-Type: "application/json"
+scenarios:
+  # We define one scenario:
+  - flow:
+      - function: "generateRandomData"
+      # Get active tasks
+      - get:
+          url: "/rest/v1/tasks"
+      # Create a new tasks
+      - post:
+          url: "/rest/v1/tasks"
+          json:
+            content: "{{ content }}"
+          capture:
+            json: "$.id"
+            as: "id"
+      - log: "Current id is {{ id }}"
+      # Get an active task
+      - get:
+          url: "/rest/v1/tasks/{{ id }}"
+      # Update a task
+      - post:
+          url: "/rest/v1/tasks"
+          json:
+            content: "{{ new_content }}"
+      # Change a task status to 'complete'
+      - post:
+          url: "/rest/v1/tasks/{{ id }}/close"
+      # Reopen a task
+      - post:
+          url: "/rest/v1/tasks/{{ id }}/reopen"
+      # Delete a task
+      - delete:
+          url: "/rest/v1/tasks/{{ id }}"
