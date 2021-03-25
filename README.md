@@ -11,3 +11,7 @@
 (Linux, macOS) `export TOKEN=YOURAPITOKEN`
 
 `npm run test`
+
+Results will be located under a directory named `results/` , 
+it will contain a `report.html` file which can open locally or
+archived under a CI/CD job or pipeline.

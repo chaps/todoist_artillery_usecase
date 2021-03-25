@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "artillery run --output results/report.json performance.yml && artillery report --output results/report.html results/report.json"
+    "test": "mkdir -p results && artillery run --output results/report.json performance.yml && artillery report --output results/report.html results/report.json"
   },
   "keywords": [],
   "author": "",
